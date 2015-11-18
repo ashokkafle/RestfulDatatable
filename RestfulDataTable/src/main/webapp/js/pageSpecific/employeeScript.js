@@ -68,7 +68,7 @@ var employeeJs = (function() {
             startDate: $("#employeeStartDate").val(),
             salary: $("#employeeSalary").val()
         };
-        var uri = (type === "add") ? "/DataTable/action/add" : "/DataTable/action/edit";
+        var uri = (type === "add") ? "/RestfulDataTable/action/add" : "/RestfulDataTable/action/edit";
         $.post(uri, data)
             .done(function () {
                 //console.log("Data Added");
@@ -81,7 +81,7 @@ var employeeJs = (function() {
 
     var sendDeleteEmployeeRequest = function () {
         var ids = $("#employeeIdArray").val();
-        $.post("/DataTable/action/delete", {"id": ids})
+        $.post("/RestfulDataTable/action/delete", {"id": ids})
             .done(function () {
                 //console.log("Data Deleted");
                 _oTable.ajax.reload();
@@ -193,7 +193,7 @@ var employeeJs = (function() {
             "bServerSide": true,
             "iCookieDuration": 31536000,
             "select": true,
-            "sAjaxSource": "/DataTable/serverProcess",
+            "sAjaxSource": "/RestfulDataTable/serverProcess",
             //"iDeferLoading": 0,
             "bProcessing": true,
             "bAutoWidth": false,
@@ -216,7 +216,7 @@ var employeeJs = (function() {
                     _spinnerShown = true;
                     UTIL.showSpinner();
                 }
-                oSettings.jqXHR = $.get("/DataTable/serverProcess", aoData, "json")
+                oSettings.jqXHR = $.get("/RestfulDataTable/serverProcess", aoData, "json")
                     .done(fnCallback)
                     .fail(function(info) {
                         if (info.responseText == "No Data Found.") {
