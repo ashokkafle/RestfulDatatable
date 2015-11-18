@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <!-- Common Styles-->
+        <link rel="stylesheet" href="css/jquery-ui-1.10.2.css"/>               
+        <link rel="stylesheet" href="css/select.dataTables.css"/>
+        <link rel="stylesheet" href="css/buttons.dataTables.css"/>
+        
+        <!-- Common Scripts -->
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.js"></script>
+        <script type="text/javascript" src="js/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="js/dataTables.select.js"></script>
+        <script type="text/javascript" src="js/dataTables.buttons.js"></script>
+        <script type="text/javascript" src="js/jquery.blockUI.js"></script>
+        <script type="text/javascript" src="js/util.js"></script>
+        
+        <!-- Page Specific Styles -->
+        <link rel="stylesheet" href="css/pageSpecific/employeeStyle.css"/>
+        
+        <!-- Page Specific Scripts -->
+        <script type="text/javascript" src="js/pageSpecific/employeeScript.js"></script>
+    </head>
+    <body>
+        <table id="example" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        
+        <!-- Employee Addition Dialog Box -->
+        <div id="employeeAddEditDialog" class="flash">            
+            <div>
+                <form id="employeeAddEditForm">
+                    <input type="hidden" id="employeeId"/>
+                    <label>First Name:</label>
+                    <div class="clearfix"></div>
+                    <input type="text" id="employeeFirstName"/><br/>
+                    <label>Last Name:</label>
+                    <div class="clearfix"></div>
+                    <input type="text" id="employeeLastName"/><br/>
+                    <label>Position:</label>
+                    <div class="clearfix"></div>
+                    <input type="text" id="employeePosition"/><br/>
+                    <label>Office:</label>
+                    <div class="clearfix"></div>
+                    <input type="text" id="employeeOffice"/><br/>
+                    <label>Start Date:</label>
+                    <div class="clearfix"></div>
+                    <input type="text" id="employeeStartDate"/><br/>
+                    <label>Salary:</label>
+                    <div class="clearfix"></div>
+                    <input type="text" id="employeeSalary"/><br/>
+                </form>
+            </div>            
+        </div>
+        
+        <!-- Employee Delete Dialog Box -->
+        <div id="employeeDeleteDialog" title="Delete Employee" class="flash">            
+            <div>
+                <input type="hidden" id="employeeIdArray"/>
+                Are you sure want to delete the selected data?
+            </div>            
+        </div>
+        
+        <!-- Site uploader dialog -->
+        <div id="dlg-webuploader" title="Employee Uploader" class="flash">
+            <form id="webuploaderform" method="post" action="" enctype="multipart/form-data" >
+                <div>
+                    <h5>Employee Upload</h5>
+                    <input type="file" class="file" name="webuploader-file" id="webuploader-file" />                             
+                </div>
+            </form>
+        </div>
+        <script>
+            $(document).on("ready", function(){
+                employeeJs.init();
+            });
+        </script>
+    </body>
+</html>
