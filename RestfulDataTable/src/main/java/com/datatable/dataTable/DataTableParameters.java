@@ -1,7 +1,7 @@
 
 package com.datatable.dataTable;
 
-import com.datatable.model.Employee;
+import com.datatable.entities.Employee;
 import java.util.List;
 
 /**

@@ -13,6 +13,11 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     
+    <context-param>
+        <param-name>resteasy.jndi.resources</param-name>
+        <param-value>java:module/DatatableRestService</param-value>
+    </context-param>
+    
     <servlet>
         <servlet-name>FirstRestApplication</servlet-name>
         <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>

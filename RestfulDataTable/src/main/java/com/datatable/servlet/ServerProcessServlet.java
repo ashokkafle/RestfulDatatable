@@ -2,21 +2,19 @@
 package com.datatable.servlet;
 
 import com.datatable.dataTable.DataTableParameters;
-import com.datatable.model.Employee;
-import com.datatable.model.QueryRunner;
+import com.datatable.entities.Employee;
+import com.datatable.facade.EmployeeFacade;
 import com.datatable.util.DataTableParamModel;
 import com.datatable.util.DataTablesParamUtility;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 public class ServerProcessServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    
+    @EJB 
+    private EmployeeFacade employeeEJB;
     
     @Override
     public void init() {
@@ -76,14 +77,7 @@ public class ServerProcessServlet extends HttpServlet {
     private void loadData(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<Integer, Employee> listOfEmployee = new HashMap<>();
-        try {      
-            QueryRunner qRunner = new QueryRunner();
-            listOfEmployee = qRunner.loadAllEmployee();
-        }
-        catch(ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
-        }
+        List<Employee> listOfEmployee = employeeEJB.findAll();
         DataTableParamModel param = DataTablesParamUtility.getParameters(request);
         
         final int sortColumnIndex = param.iSortColumnIndex;
@@ -95,8 +89,7 @@ public class ServerProcessServlet extends HttpServlet {
         /**
          * Filtering data according to search input
          */
-        for(Map.Entry<Integer, Employee> entry : listOfEmployee.entrySet()) {
-            Employee e = entry.getValue();
+        for(Employee e: listOfEmployee) {
             if (e.getFirstName().toLowerCase().contains(param.sSearch.toLowerCase())
                     || e.getLastName().toLowerCase().contains(param.sSearch.toLowerCase())
                     || e.getPosition().toLowerCase().contains(param.sSearch.toLowerCase())
@@ -126,7 +119,7 @@ public class ServerProcessServlet extends HttpServlet {
                     case 5:
                         return e1.getStartDate().compareTo(e2.getStartDate()) * sortDirection;
                     case 6:
-                        return e1.getSalary().compareTo(e2.getSalary()) * sortDirection;
+                        return Long.valueOf(e1.getSalary()).compareTo(Long.valueOf(e2.getSalary())) * sortDirection;
                 }
                 return 0;
             }

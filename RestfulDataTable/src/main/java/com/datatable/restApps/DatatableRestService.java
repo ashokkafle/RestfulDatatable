@@ -1,10 +1,13 @@
-
 package com.datatable.restApps;
 
-
-import com.datatable.model.Employee;
-import com.datatable.model.QueryRunner;
-import java.sql.SQLException;
+import com.datatable.facade.EmployeeFacade;
+import com.datatable.model.EmployeeForm;
+import com.datatable.entities.Employee;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import org.jboss.resteasy.annotations.Form;
@@ -13,77 +16,88 @@ import org.jboss.resteasy.annotations.Form;
  *
  * @author Ashok
  */
+@Stateless
 @Path("/")
 public class DatatableRestService {
-    
+
+    @EJB
+    private EmployeeFacade employeeEJB;
+
     @POST
     @Path("/add")
-    public void addEmployee(@Form Employee form) {        
-        try {      
-            QueryRunner qRunner = new QueryRunner();
-            qRunner.insertEmployee(form);
-        }
-        catch(ClassNotFoundException | SQLException e) {
+    public void addEmployee(
+        @FormParam("firstName") String firstName,
+        @FormParam("lastName") String lastName,
+        @FormParam("position") String position,
+        @FormParam("office") String office,
+        @FormParam("startDate") String startDate,
+        @FormParam("salary") String salary
+    ) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Employee emp = new Employee(null, firstName, lastName, position, office, format.parse(startDate), Long.parseLong(salary));
+            employeeEJB.create(emp);
+        } 
+        catch (ParseException | NumberFormatException e) {
             System.out.println(e.getMessage());
         }
     }
-    
+
     @POST
     @Path("/edit")
-    public void editEmployee(@Form Employee form) {
+    public void editEmployee(
+        @FormParam("ids") String ids,
+        @FormParam("firstName") String firstName,
+        @FormParam("lastName") String lastName,
+        @FormParam("position") String position,
+        @FormParam("office") String office,
+        @FormParam("startDate") String startDate,
+        @FormParam("salary") String salary
+    ) {
         try {
-            String ids = form.getId();
             String[] idArray = ids.split(",");
-            String firstName = form.getFirstName();
-            String lastName = form.getLastName();
-            String position = form.getPosition();
-            String office = form.getOffice();
-            String startDate = form.getStartDate();
-            String salary = form.getSalary();
-            for(String s : idArray) {
-                QueryRunner qRunner = new QueryRunner();
-                Employee emp = qRunner.loadSingleEmployee(s);
-                
-                if(!firstName.equals("multiple")) {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            for (String id : idArray) {
+                Employee emp = employeeEJB.find(Integer.parseInt(id));
+
+                if (!firstName.equals("multiple")) {
                     emp.setFirstName(firstName);
                 }
-                if(!lastName.equals("multiple")) {
+                if (!lastName.equals("multiple")) {
                     emp.setLastName(lastName);
                 }
-                if(!position.equals("multiple")) {
+                if (!position.equals("multiple")) {
                     emp.setPosition(position);
                 }
-                if(!office.equals("multiple")) {
+                if (!office.equals("multiple")) {
                     emp.setOffice(office);
                 }
-                if(!startDate.equals("multiple")) {
-                    emp.setStartDate(startDate);
+                if (!startDate.equals("multiple")) {
+                    emp.setStartDate(format.parse(startDate));
                 }
-                if(!salary.equals("multiple")) {
-                    emp.setSalary(salary);
+                if (!salary.equals("multiple")) {
+                    emp.setSalary(Long.parseLong(salary));
                 }
-                
-                qRunner = new QueryRunner();
-                qRunner.editEmployee(emp);
+
+                employeeEJB.edit(emp);
             }
         } 
-        catch (ClassNotFoundException | SQLException e) {
+        catch (ParseException | NumberFormatException e) {
             System.out.println(e.getMessage());
-        }       
+        }
     }
-    
+
     @POST
     @Path("/delete")
-    public void deleteEmployee(@Form Employee form) {
+    public void deleteEmployee(@FormParam("ids") String ids) {
         try {
-            String ids = form.getId();           
-            String[] idArray = ids.split(",");            
-            for(String s : idArray) {
-                QueryRunner qRunner = new QueryRunner();
-                qRunner.deleteEmployee(Integer.parseInt(s));
+            String[] idArray = ids.split(",");
+            for (String id : idArray) {
+                Employee emp = employeeEJB.find(Integer.parseInt(id));
+                employeeEJB.remove(emp);
             }
         } 
-        catch (ClassNotFoundException | SQLException e) {
+        catch (NumberFormatException e) {
             System.out.println(e.getMessage());
         }
     }

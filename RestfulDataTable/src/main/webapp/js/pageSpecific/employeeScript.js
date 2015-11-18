@@ -60,7 +60,7 @@ var employeeJs = (function() {
 
     var sendAddEditEmployeeRequest = function (type) {
         var data = {
-            id: $("#employeeId").val(),
+            ids: $("#employeeId").val(),
             firstName: $("#employeeFirstName").val(),
             lastName: $("#employeeLastName").val(),
             position: $("#employeePosition").val(),
@@ -71,7 +71,6 @@ var employeeJs = (function() {
         var uri = (type === "add") ? "/RestfulDataTable/action/add" : "/RestfulDataTable/action/edit";
         $.post(uri, data)
             .done(function () {
-                //console.log("Data Added");
                 _oTable.ajax.reload();
             })
             .fail(function (data) {
@@ -81,9 +80,8 @@ var employeeJs = (function() {
 
     var sendDeleteEmployeeRequest = function () {
         var ids = $("#employeeIdArray").val();
-        $.post("/RestfulDataTable/action/delete", {"id": ids})
+        $.post("/RestfulDataTable/action/delete", {ids : ids})
             .done(function () {
-                //console.log("Data Deleted");
                 _oTable.ajax.reload();
             })
             .fail(function (data) {
@@ -103,7 +101,6 @@ var employeeJs = (function() {
         }
         else {
             data = $.makeArray(data);
-            //console.log(data);
             if(data.length === 1) {
                 data = data[0];
                 $("#employeeId").val(data.id);
@@ -267,8 +264,7 @@ var employeeJs = (function() {
                     text: "Delete",
                     action: function (e, dt, button, config) {
                         var ids = dt.rows({selected: true}).data().pluck("id");
-                        var idArray = $.makeArray(ids);
-                        //console.log(idArray);                                
+                        var idArray = $.makeArray(ids);                              
                         $("#employeeIdArray").val(idArray);
                         $("#employeeDeleteDialog").dialog("open");
                     }

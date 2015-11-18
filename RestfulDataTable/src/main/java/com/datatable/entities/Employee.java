@@ -1,40 +1,79 @@
 
-package com.datatable.model;
+package com.datatable.entities;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
-import javax.ws.rs.FormParam;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author Ashok
  */
-public class Employee {
+@Entity
+@Table(name = "employee")
+public class Employee implements Serializable {
+    private static final long serialVersionUID = 1L;
     
-    @FormParam("id")
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     
-    @FormParam("firstName")
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "first_name")
     private String firstName;
     
-    @FormParam("lastName")
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "last_name")
     private String lastName;
     
-    @FormParam("position")
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "position")
     private String position;
     
-    @FormParam("office")
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "office")
     private String office;
     
-    @FormParam("startDate")
-    private String startDate;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "start_date")
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
     
-    @FormParam("salary")
-    private String salary;
-    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "salary")
+    private long salary;
+
     public Employee() {
     }
 
-    public Employee(String id, String firstName, String lastName, String position, String office, String startDate, String salary) {
+    public Employee(Integer id) {
+        this.id = id;
+    }
+
+    public Employee(Integer id, String firstName, String lastName, String position, String office, Date startDate, long salary) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,14 +83,14 @@ public class Employee {
         this.salary = salary;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-    
+
     public String getFirstName() {
         return firstName;
     }
@@ -84,32 +123,32 @@ public class Employee {
         this.office = office;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public String getSalary() {
+    public long getSalary() {
         return salary;
     }
 
-    public void setSalary(String salary) {
+    public void setSalary(long salary) {
         this.salary = salary;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 59 * hash + Objects.hashCode(this.id);
-        hash = 59 * hash + Objects.hashCode(this.firstName);
-        hash = 59 * hash + Objects.hashCode(this.lastName);
-        hash = 59 * hash + Objects.hashCode(this.position);
-        hash = 59 * hash + Objects.hashCode(this.office);
-        hash = 59 * hash + Objects.hashCode(this.startDate);
-        hash = 59 * hash + Objects.hashCode(this.salary);
+        hash = 79 * hash + Objects.hashCode(this.id);
+        hash = 79 * hash + Objects.hashCode(this.firstName);
+        hash = 79 * hash + Objects.hashCode(this.lastName);
+        hash = 79 * hash + Objects.hashCode(this.position);
+        hash = 79 * hash + Objects.hashCode(this.office);
+        hash = 79 * hash + Objects.hashCode(this.startDate);
+        hash = 79 * hash + (int) (this.salary ^ (this.salary >>> 32));
         return hash;
     }
 
@@ -140,7 +179,7 @@ public class Employee {
         if (!Objects.equals(this.startDate, other.startDate)) {
             return false;
         }
-        if (!Objects.equals(this.salary, other.salary)) {
+        if (this.salary != other.salary) {
             return false;
         }
         return true;
@@ -148,8 +187,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee {" + 
-            "id = " + id + 
+        return "Employee{" + "id = " + id + 
             ", firstName = " + firstName + 
             ", lastName = " + lastName + 
             ", position = " + position + 
@@ -157,5 +195,5 @@ public class Employee {
             ", startDate = " + startDate + 
             ", salary = " + salary + 
             '}';
-    }       
+    }
 }
