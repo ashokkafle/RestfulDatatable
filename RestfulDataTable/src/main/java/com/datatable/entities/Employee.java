@@ -141,15 +141,15 @@ public class Employee implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 79 * hash + Objects.hashCode(this.id);
-        hash = 79 * hash + Objects.hashCode(this.firstName);
-        hash = 79 * hash + Objects.hashCode(this.lastName);
-        hash = 79 * hash + Objects.hashCode(this.position);
-        hash = 79 * hash + Objects.hashCode(this.office);
-        hash = 79 * hash + Objects.hashCode(this.startDate);
-        hash = 79 * hash + (int) (this.salary ^ (this.salary >>> 32));
-        return hash;
+        return Objects.hash(
+            this.id,
+            this.firstName,
+            this.lastName,
+            this.position,
+            this.office,
+            this.startDate,
+            this.salary
+        );
     }
 
     @Override
@@ -157,32 +157,20 @@ public class Employee implements Serializable {
         if (obj == null) {
             return false;
         }
+        if(obj == this) {
+            return true;
+        }
         if (getClass() != obj.getClass()) {
             return false;
         }
         final Employee other = (Employee) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.firstName, other.firstName)) {
-            return false;
-        }
-        if (!Objects.equals(this.lastName, other.lastName)) {
-            return false;
-        }
-        if (!Objects.equals(this.position, other.position)) {
-            return false;
-        }
-        if (!Objects.equals(this.office, other.office)) {
-            return false;
-        }
-        if (!Objects.equals(this.startDate, other.startDate)) {
-            return false;
-        }
-        if (this.salary != other.salary) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.id, other.id)
+            && Objects.equals(this.firstName, other.firstName)
+            && Objects.equals(this.lastName, other.lastName)
+            && Objects.equals(this.position, other.position)
+            && Objects.equals(this.office, other.office)
+            && Objects.equals(this.startDate, other.startDate)
+            && this.salary == other.salary;
     }
 
     @Override
