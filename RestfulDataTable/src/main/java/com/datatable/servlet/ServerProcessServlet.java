@@ -119,7 +119,7 @@ public class ServerProcessServlet extends HttpServlet {
                     case 5:
                         return e1.getStartDate().compareTo(e2.getStartDate()) * sortDirection;
                     case 6:
-                        return Long.valueOf(e1.getSalary()).compareTo(Long.valueOf(e2.getSalary())) * sortDirection;
+                        return Long.valueOf(e1.getSalary()).compareTo(e2.getSalary()) * sortDirection;
                 }
                 return 0;
             }

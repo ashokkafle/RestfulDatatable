@@ -1,7 +1,6 @@
 package com.datatable.restApps;
 
 import com.datatable.facade.EmployeeFacade;
-import com.datatable.model.EmployeeForm;
 import com.datatable.entities.Employee;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,7 +9,6 @@ import javax.ejb.Stateless;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import org.jboss.resteasy.annotations.Form;
 
 /**
  *

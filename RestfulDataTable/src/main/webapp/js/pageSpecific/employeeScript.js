@@ -41,6 +41,12 @@ var employeeJs = (function() {
         window.location = "";
     };
     
+    var changeDateFormat = function(data) {
+        var date = new Date(data);
+        var formatedDate = date.getFullYear() + "-" + ('0'+(date.getMonth()+1)).slice(-2) + "-" + ('0'+(date.getDate())).slice(-2);
+        return formatedDate;
+    };
+    
     var openEditOverlay = function(data) {
         var row = $(data).parents('tr');
         var rowData = _oTable.row(row).data();
@@ -108,7 +114,7 @@ var employeeJs = (function() {
                 $("#employeeLastName").val(data.lastName);
                 $("#employeePosition").val(data.position);
                 $("#employeeOffice").val(data.office);
-                $("#employeeStartDate").val(data.startDate);
+                $("#employeeStartDate").val(changeDateFormat(data.startDate));
                 $("#employeeSalary").val(data.salary);
             }
             else {
@@ -175,7 +181,7 @@ var employeeJs = (function() {
                     $("#employeeOffice").val(data[0].office);                     
                 }
                 if(isStartDateSame) {                    
-                    $("#employeeStartDate").val(data[0].startDate);                    
+                    $("#employeeStartDate").val(changeDateFormat(data[0].startDate));                    
                 }
                 if(isSalarySame) {                    
                     $("#employeeSalary").val(data[0].salary);                   
@@ -272,11 +278,11 @@ var employeeJs = (function() {
             ],
             "aoColumns": [
                 {"mData": "id", "bVisible": false},
-                {"mData": "firstName", "mRender": function(data, type, full) { return '<a class="bluelink" onclick="employeeJs.openEditOverlay(this)">' + data + '</a>'; } },
+                {"mData": "firstName", "mRender": function(data, type, full) { return '<a class="bluelink" onclick="employeeJs.openEditOverlay(this)">' + data + '</a>'; }},
                 {"mData": "lastName"},
                 {"mData": "position"},
                 {"mData": "office"},
-                {"mData": "startDate"},
+                {"mData": "startDate", "mRender": function(data, type, full){ return changeDateFormat(data); }},
                 {"mData": "salary"}
             ],
             "fnPreDrawCallback": function (oSettings) {
