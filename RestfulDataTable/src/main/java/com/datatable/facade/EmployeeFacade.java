@@ -1,4 +1,3 @@
-
 package com.datatable.facade;
 
 import com.datatable.entities.Employee;
@@ -12,16 +11,17 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class EmployeeFacade extends AbstractFacade<Employee> {
-    @PersistenceContext(unitName = "com_RestfulDataTable_PU")
-    private EntityManager em;
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+	@PersistenceContext(unitName = "com_RestfulDataTable_PU")
+	private EntityManager em;
 
-    public EmployeeFacade() {
-        super(Employee.class);
-    }
+	@Override
+	protected EntityManager getEntityManager() {
+		return em;
+	}
+
+	public EmployeeFacade() {
+		super(Employee.class);
+	}
 
 }

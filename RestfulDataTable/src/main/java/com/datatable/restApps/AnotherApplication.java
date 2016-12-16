@@ -1,4 +1,3 @@
-
 package com.datatable.restApps;
 
 import java.util.HashSet;
@@ -13,10 +12,10 @@ import javax.ws.rs.core.Application;
 @ApplicationPath("/")
 public class AnotherApplication extends Application {
 
-    @Override
-    public Set<Object> getSingletons() {
-        Set<Object> singletons = new HashSet<>();
-        singletons.add(new AnotherRestService());
-        return singletons;
-    }
+	@Override
+	public Set<Object> getSingletons() {
+		Set<Object> singletons = new HashSet<>();
+		singletons.add(new AnotherRestService());
+		return singletons;
+	}
 }
